@@ -1,6 +1,7 @@
 package com.ceyentra.last.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
@@ -22,7 +23,14 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         http.
                 anonymous().disable()
                 .authorizeRequests()
+
+//                When their i can manage which role(ADMIN,USER,EMPLOYEE) use this
+                .antMatchers(HttpMethod.GET,  "/users/user")
+                .access("hasAnyRole('ROLE_ADMIN')")
+
                 .antMatchers("/users/**").authenticated()
+
+
                 .and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
     }
 }

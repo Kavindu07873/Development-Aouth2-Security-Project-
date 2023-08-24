@@ -1,10 +1,13 @@
 package com.ceyentra.last.config;
 
+import com.ceyentra.last.dao.UserDao;
+import com.ceyentra.last.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.parameters.P;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -35,6 +38,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 //    static final String TRUST = "trust";
 //    static final int ACCESS_TOKEN_VALIDITY_SECONDS = 40;
 //    static final int REFRESH_TOKEN_VALIDITY_SECONDS = 80;
+    @Autowired
+    private UserDao userDao;
 
     @Autowired
     private TokenStore tokenStore;
@@ -50,15 +55,21 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
         configurer
                 .inMemory()
-
                 .withClient(ET_CLIENT_ID)
                 .secret(bCryptPasswordEncoder.encode(CLIENT_SECRET))
                 .authorizedGrantTypes(GRANT_TYPE_PASSWORD, AUTHORIZATION_CODE, REFRESH_TOKEN, IMPLICIT)
                 .scopes(SCOPE_READ, SCOPE_WRITE, TRUST)
                 .accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS)
                 .refreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY_SECONDS)
-                .and();
+                .and()
 
+
+                .withClient(ADMIN_CLIENT_ID)
+                .secret(bCryptPasswordEncoder.encode(CLIENT_SECRET))
+                .authorizedGrantTypes(GRANT_TYPE_PASSWORD, AUTHORIZATION_CODE, REFRESH_TOKEN, IMPLICIT)
+                .scopes(SCOPE_READ, SCOPE_WRITE, TRUST)
+                .accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS)
+                .refreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY_SECONDS);
 
 
 

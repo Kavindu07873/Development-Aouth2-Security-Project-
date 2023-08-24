@@ -45,6 +45,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		if (user.getRole().equals("ROLE_ADMIN")){
 			return Arrays.asList(new SimpleGrantedAuthority(user.getRole()));
 		}
+		if (user.getRole().equals("ROLE_USER")){
+			return Arrays.asList(new SimpleGrantedAuthority(user.getRole()));
+		}
 		throw new UsernameNotFoundException("Access Denied");
 	}
 
