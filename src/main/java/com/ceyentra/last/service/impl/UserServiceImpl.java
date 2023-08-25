@@ -27,13 +27,19 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	private BCryptPasswordEncoder encoder;
 
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userDao.findByUsername(username);
-		System.out.println(user);
-		if(user == null){
-			throw new UsernameNotFoundException("Invalid username or password.");
-		}
+
+		try {
+			User user = userDao.findByUsername(username);
+			System.out.println(user);
+			if(user == null){
+				throw new UsernameNotFoundException("Invalid username or password.");
+			}
 //		System.out.println(user.getPassword());
-		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthority(user));
+			return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthority(user));
+
+		}catch (Exception e){
+			throw e;
+		}
 	}
 
 //	private List<SimpleGrantedAuthority> getAuthority() {
@@ -51,10 +57,17 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		throw new UsernameNotFoundException("Access Denied");
 	}
 
-
+//	public void UpdateCar(CarDto dto) {
+//		User user = userDao.findByUsername(username);
+//
+//		Car car = mapper.map(dto, Car.class);
+//		CarRepo.save(car);
+//
+//	}
 
 	public List<User> findAll() {
 		List<User> list = new ArrayList<>();
+		System.out.println(list);
 		userDao.findAll().iterator().forEachRemaining(list::add);
 		return list;
 	}

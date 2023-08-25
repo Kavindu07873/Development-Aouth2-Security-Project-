@@ -20,10 +20,7 @@ public class UserController {
         return userService.findAll();
     }
 
-    @GetMapping(value = "/user2")
-    public String Hello(){
-        return "sdfvkwmv";
-    }
+
 
     @PostMapping(value = "/user")
     public User saveUser(@RequestBody User user){
