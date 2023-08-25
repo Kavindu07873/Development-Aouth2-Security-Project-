@@ -21,7 +21,7 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {Exception.class})
     ResponseEntity<ErrorMsgResponseDto> handleException(Exception exception){
         return  new ResponseEntity<>(
-                new ErrorMsgResponseDto(false,100 ,APPLICATION_ERROR_OCCURRED_MESSAGE),
+                new ErrorMsgResponseDto(false,exception.hashCode() ,exception.getMessage()),
           HttpStatus.OK
         );
     }

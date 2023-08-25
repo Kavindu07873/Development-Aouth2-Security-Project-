@@ -10,6 +10,7 @@ public interface UserService {
 
     User save(User user);
     List<User> findAll();
+    public User Update(User user) ;
 
-//    void delete(int id);
+    void delete(Long id);
 }
