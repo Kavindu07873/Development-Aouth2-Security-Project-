@@ -2,6 +2,7 @@ package com.ceyentra.last.service.impl;
 
 
 import com.ceyentra.last.advice.UserException;
+import com.ceyentra.last.constant.ApplicationConstant;
 import com.ceyentra.last.dao.UserDao;
 import com.ceyentra.last.entity.User;
 import com.ceyentra.last.service.UserService;
@@ -45,6 +46,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 //		return Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
 //	}
 
+//Ckheck role is admin or user
 	private List<SimpleGrantedAuthority> getAuthority(User user) {
 		System.out.println(user.getRole());
 		if (user.getRole().equals("ROLE_ADMIN")){
@@ -56,15 +58,18 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		throw new UsernameNotFoundException("Access Denied");
 	}
 
-	public User Update(User user) {
+
+
+	//we can update user in their
+	public User updateUser(User user) {
 		try {
 			Optional<User> byId = userDao.findById(user.getId());
 			if(!byId.isPresent())
-				throw new UserException("Admin user not found");
+				throw new UserException("Admin user not found" ,ApplicationConstant.RESOURCE_NOT_FOUND);
 			Optional<User> byUsername = Optional.ofNullable(userDao.findByUsername(user.getUsername()));
 
 			if(byUsername.isPresent())
-				throw new UserException("Username already exist",409 );
+				throw new UserException("Username already exist",ApplicationConstant.RESOURCE_ALREADY_EXIST );
 			User userEntity =byId.get();
 
 
@@ -81,21 +86,30 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
 	}
 
-	public List<User> findAll() {
 
+	//	their i can get all the users
+	public List<User> findAllUsers() {
 		List<User> list = new ArrayList<>();
 		System.out.println(list);
 		userDao.findAll().iterator().forEachRemaining(list::add);
 		return list;
 	}
+//Collections.singleton(id): This is creating a singleton set containing only the provided id.
+// It's a convenient way to create a collection with a single element.
 
+
+
+	//	 can delete any user
 	@Override
-	public void delete(Long id) {
+	public void deleteUser(Long id) {
 		userDao.deleteAllById(Collections.singleton(id));
 	}
 
+
+
+	//	add user to the project
 	@Override
-    public User save(User user) {
+    public User saveUser(User user) {
 
 		try {
 			Optional<User> byUsername = Optional.ofNullable(userDao.findByUsername(user.getUsername()));

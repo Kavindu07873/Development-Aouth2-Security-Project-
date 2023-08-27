@@ -21,6 +21,7 @@ import static com.ceyentra.last.constant.OAuth2Constant.*;
 @Component
 @EnableAuthorizationServer
 @PropertySource("classpath:application.properties")
+//(AuthorizationServerConfig)main responsible is to generate a token to the client
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
@@ -50,6 +51,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+
+    //    This method is use to define the client details service which is responsible
+//    for managing information about register OAuth clients
     @Override
     public void configure(ClientDetailsServiceConfigurer configurer) throws Exception {
 
@@ -74,7 +78,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 
     }
-
+    //    This method is use to define the client details service which is responsible
+//    for managing information about register OAuth clients
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.tokenStore(tokenStore)

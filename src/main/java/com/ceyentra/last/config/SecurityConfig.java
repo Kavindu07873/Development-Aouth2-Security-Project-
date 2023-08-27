@@ -24,10 +24,14 @@ import javax.annotation.Resource;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+//provides usual spring security configuration.
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Resource(name = "userService")
     private UserDetailsService userDetailsService;
+
+
+    //manage karanawa or Authenticate karanawa usename password
 
     @Override
     @Bean
@@ -35,13 +39,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+
+    // The purpose of this method is to configure how user authentication should be handled by the authentication
+// manager.
+//    This is the name of the method that configures user details for authentication.
+
+
+
+//    SPECIAL
+//     The user details service is responsible for retrieving user information from a
+//     data source, and the password encoder ensures that passwords
+//     are securely stored and compared during authentication.
+
     @Autowired
     public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService)
                 .passwordEncoder(encoder());
 
     }
-
+    // specify how HTTP requests should be secured. You can define which URLs should be
+    // accessible by different types of users, set up authentication mechanisms
+    // (e.g., form-based, HTTP Basic, OAuth2), and configure access control rules.
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http

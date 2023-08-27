@@ -10,6 +10,9 @@ import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHand
 
 @Configuration
 @EnableResourceServer
+//meken thamai crud Operation manage venne
+//before use client must be athenticated
+//when the user authorize and athenticity he can access them
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     private static final String RESOURCE_ID = "resource_id";
 

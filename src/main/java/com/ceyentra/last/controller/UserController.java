@@ -17,24 +17,22 @@ public class UserController {
 
     @GetMapping(value="/user")
     public List<User> listUser(){
-        return userService.findAll();
+        return userService.findAllUsers();
     }
-
-
 
     @PostMapping(value = "/user")
     public User saveUser(@RequestBody User user){
-        return userService.save(user);
+        return userService.saveUser(user);
     }
 
     @PutMapping("/user/{id}")
     public User updateUser(@RequestBody User user){
-        return userService.Update(user);
+        return userService.updateUser(user);
     }
 
     @DeleteMapping(value = "/user/{id}")
     public String delete(@PathVariable(value = "id") Long id){
-        userService.delete(id);
+        userService.deleteUser(id);
         return "User Deleted Successfully!";
     }
 
